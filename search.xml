@@ -8,7 +8,7 @@
       <link href="/2023/04/26/%E5%A6%82%E4%BD%95%E7%94%A8%E7%89%9B%E9%A1%BF%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%B1%82%E8%BF%91%E4%BC%BC%E8%A7%A3/"/>
       <url>/2023/04/26/%E5%A6%82%E4%BD%95%E7%94%A8%E7%89%9B%E9%A1%BF%E8%BF%AD%E4%BB%A3%E6%B3%95%E6%B1%82%E8%BF%91%E4%BC%BC%E8%A7%A3/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<h2 id="如何用牛顿迭代法求近似值">如何用牛顿迭代法求近似值</h2><h3 id="问题简介">问题简介：</h3><p>此前在网上碰到一题面试题，具体公司忘了（华为外包？），题目描述是：如何不用python内置函数计算<spanclass="math inline">\(\sqrt{3}\)</span>的值</p><p>•计算一个数字的立方根，不使用库函数</p><p>详细描述：</p><p>•接口说明</p><p>原型：</p><p>public static double getCubeRoot(double input)</p><p>输入:double 待求解参数</p><p>返回值:double 输入参数的立方根</p><h5 id="输入描述"><strong>输入描述:</strong></h5><p>待求解参数 double类型</p><h5 id="输出描述"><strong>输出描述:</strong></h5><p>输入参数的立方根 也是double类型</p><p>示例1</p><h5 id="输入">输入</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">216</span></span><br></pre></td></tr></table></figure><h5 id="输出">输出</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">6.0</span></span><br></pre></td></tr></table></figure><h3 id="初步方法介绍">初步方法介绍</h3><p>接下来先介绍用内置函数计算<spanclass="math inline">\(\sqrt{2}\)</span>的方法：</p><h4 id="pow函数">1.pow()函数</h4><p>以下是调用math模块的的<code>pow()</code>语法 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line">math.<span class="built_in">pow</span>(x,y) <span class="comment">#计算x的y次方</span></span><br></pre></td></tr></table></figure>以下是内置的<code>pow()</code>语法 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">pow</span>(x,y[,z]) <span class="comment">#计算x的y次方，如果z在存在，则再对结果进行取模，其结果等效于pow(x,y)%z</span></span><br></pre></td></tr></table></figure> 代码例子：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line">a=<span class="built_in">float</span>(<span class="built_in">input</span>())</span><br><span class="line">b=<span class="built_in">float</span>(<span class="built_in">input</span>())</span><br><span class="line"><span class="built_in">print</span>(math.<span class="built_in">pow</span>(a,b))</span><br></pre></td></tr></table></figure> 输入 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">0.5</span></span><br></pre></td></tr></table></figure> 输出 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.7320508075688772</span></span><br></pre></td></tr></table></figure></p><h4 id="sqrt函数">2.sqrt()函数</h4><p>以下是调用math模块的<code>sqrt()</code>方法，但是该方法只能计算平方根，只作为相关知识介绍<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line">math.sqrt()<span class="comment">#计算开方值</span></span><br></pre></td></tr></table></figure></p><p>代码例子 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line">x=<span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">y=math.sqrt(x)</span><br><span class="line"><span class="built_in">print</span>(y)</span><br></pre></td></tr></table></figure> 输入 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4</span></span><br></pre></td></tr></table></figure> 输出 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2.0</span></span><br></pre></td></tr></table></figure></p><h4 id="cmath库下的sqrt函数">3.cmath库下的sqrt()函数</h4><p>cmath库多了一个字母c，表示的就是在使用的时候，一般是在负数或者是复数中使用开平方，具体的使用如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cmath</span><br><span class="line">math.sqrt()</span><br></pre></td></tr></table></figure><p>代码例子 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cmath</span><br><span class="line">x=<span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">y=cmath.sqrt(x)</span><br><span class="line"><span class="built_in">print</span>(y)</span><br></pre></td></tr></table></figure> 输入 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4</span></span><br></pre></td></tr></table></figure> 输出 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">2</span>+<span class="number">0j</span>) <span class="comment">#注意，输出类型为complex</span></span><br></pre></td></tr></table></figure>但是题目的要求是不使用相关库函数，所以上面的方法都不能用，其实这道题的考点不是编程，考的是数值分析的内容，接下来介绍牛顿迭代法来求近似解的算法。</p><h3 id="牛顿迭代法知识导引">牛顿迭代法知识导引</h3><p>本部分参照《数值分析》第五版<a href="#fn1" class="footnote-ref"id="fnref1" role="doc-noteref"><sup>1</sup></a></p><h4 id="方程求根及二分法">方程求根及二分法</h4><p>考察有根区间<span class="math inline">\([a,b]\)</span>,取中点<spanclass="math inline">\(x_0=(a+b)/2\)</span>将它分成两半，假设中点x_0不是<spanclass="math inline">\(f(x)\)</span>的零点，然后进行根的搜索，即检查<spanclass="math inline">\(f(x_0)\)</span>与<spanclass="math inline">\(f(a)\)</span>是否同号，如果确定同号说明所求的根在<spanclass="math inline">\(x_0\)</span>右侧，此时令<spanclass="math inline">\(a_1=a,b_1=x_0\)</span>,不管出现哪种情况，新的有根区间<spanclass="math inline">\([a_1,b_1]\)</span>长度仅为<spanclass="math inline">\([a,b]\)</span>长度的一半。</p><p>参考图如下<img src="/images/erfenfa.png" alt="二分法参考图" /></p><h3 id="参考文献">参考文献</h3><aside id="footnotes" class="footnotes footnotes-end-of-document"role="doc-endnotes"><hr /><ol><li id="fn1"><p>《数值分析》第五版 清华大学出版社 李庆扬 王能超易大义编<a href="#fnref1" class="footnote-back"role="doc-backlink">↩︎</a></p></li></ol></aside>]]></content>
       
       
       <categories>
@@ -37,7 +37,7 @@
       <link href="/2023/04/23/%E7%AC%AC%E4%B8%80%E7%AF%87blog/"/>
       <url>/2023/04/23/%E7%AC%AC%E4%B8%80%E7%AF%87blog/</url>
       
-        <content type="html"><![CDATA[<h2 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h2>]]></content>
+        <content type="html"><![CDATA[<h2 id="这是我的第一篇博客">这是我的第一篇博客</h2><h4 id="个人介绍博客的搭建目的">个人介绍&amp;博客的搭建目的</h4><p>本人在2022年本科毕业，学的专业是数学，经过两年的考研失败也算是看出来自己的智商和数学天赋确实有点欠缺，所以便投身于工作，无奈大学光阴业已虚度，当时自己确实也没有做好长远的打算，在编程学习上也只是把学校的课程将就水过，导致在就业市场上屡屡碰壁。如今痛定思痛，自己搭建了个人博客，把自己这些年自学的数学知识和将要学的编程语言知识，系统地搭建成一个框架，进行总结和提升。此外我也会对自己做的一些项目发表一些浅见。希望这个博客的搭建能对自己以后的发展能够形成帮助。</p><h4 id="谈点有趣的话题">谈点有趣的话题</h4><p>本人从小到大也算是兴趣广泛，也喜欢接触新事物，也爱对事物发表看法，所以该博客也有个人树洞的作用。本人可能时不时也会在上面发表一些个人观点和想法（本人从小爱打球和运动，喜爱音乐，也喜欢二次元和键政），不为别的，只为心情愉悦~~</p>]]></content>
       
       
       <categories>
@@ -63,11 +63,22 @@
     
     
     <entry>
+      <title></title>
+      <link href="/css/custom.css"/>
+      <url>/css/custom.css</url>
+      
+        <content type="html"><![CDATA[/* 页脚与头图透明 */#footer {    background: transparent !important;  }  #page-header {    background: transparent !important;  }    /* 白天模式遮罩透明 */  #footer::before {    background: transparent !important;  }  #page-header::before {    background: transparent !important;  }    /* 夜间模式遮罩透明 */  [data-theme="dark"] #footer::before {    background: transparent !important;  }  [data-theme="dark"] #page-header::before {    background: transparent !important;  }]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>关于</title>
       <link href="/about/index.html"/>
       <url>/about/index.html</url>
       
-        <content type="html"><![CDATA[<h2 id="本博客是本人的一个知识和技术的储存室。"><a href="#本博客是本人的一个知识和技术的储存室。" class="headerlink" title="本博客是本人的一个知识和技术的储存室。"></a>本博客是本人的一个知识和技术的储存室。</h2>]]></content>
+        <content type="html"><![CDATA[<h2id="本博客是本人的一个知识和技术的储存室">本博客是本人的一个知识和技术的储存室。</h2>]]></content>
       
     </entry>
     
@@ -85,11 +96,11 @@
     
     
     <entry>
-      <title></title>
-      <link href="/css/custom.css"/>
-      <url>/css/custom.css</url>
+      <title>电影</title>
+      <link href="/movies/index.html"/>
+      <url>/movies/index.html</url>
       
-        <content type="html"><![CDATA[/* 页脚与头图透明 */#footer {    background: transparent !important;  }  #page-header {    background: transparent !important;  }    /* 白天模式遮罩透明 */  #footer::before {    background: transparent !important;  }  #page-header::before {    background: transparent !important;  }    /* 夜间模式遮罩透明 */  [data-theme="dark"] #footer::before {    background: transparent !important;  }  [data-theme="dark"] #page-header::before {    background: transparent !important;  }]]></content>
+        <content type="html"><![CDATA[]]></content>
       
     </entry>
     
@@ -118,9 +129,9 @@
     
     
     <entry>
-      <title>电影</title>
-      <link href="/movies/index.html"/>
-      <url>/movies/index.html</url>
+      <title>音乐</title>
+      <link href="/music/index.html"/>
+      <url>/music/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -132,17 +143,6 @@
       <title>tags</title>
       <link href="/tags/index.html"/>
       <url>/tags/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>音乐</title>
-      <link href="/music/index.html"/>
-      <url>/music/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
